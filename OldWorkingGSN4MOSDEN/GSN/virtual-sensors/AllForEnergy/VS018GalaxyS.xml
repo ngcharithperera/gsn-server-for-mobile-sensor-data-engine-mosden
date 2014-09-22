@@ -1,0 +1,50 @@
+<virtual-sensor name="VS018GalaxyS" priority="11">
+	<processing-class>
+		<class-name>gsn.vsensor.BridgeVirtualSensor</class-name>
+		<output-structure>
+			<field name="accelerationX_axis_incl_gravity" type="double" />
+			<field name="accelerationY_axis_incl_gravity" type="double" />
+<!-- 			<field name="accelerationZ_axis_incl_gravity" type="double" /> -->
+ 			<field name="temperature" type="double" /> 
+ 			<field name="leaf_wetness" type="double" /> 
+  			<field name="air_humidity" type="double" /> 			
+ 			
+		</output-structure>
+	</processing-class>
+	<description>Testing SensMA Lite</description>
+	<life-cycle pool-size="10" />
+	<addressing>
+		<predicate key="geographical">CSIRO</predicate>
+	</addressing>
+	<storage history-size="1" />
+	<streams>
+		<stream name="DATA">
+			<source alias="source1" storage-size="1" sampling-rate="1">
+				<address wrapper="remote-rest">
+					<predicate key="HOST">192.168.22.101</predicate>
+					<predicate key="PORT">22001</predicate>
+					<predicate key="QUERY">SELECT * FROM AndroidInbuiltAccelerometerSensor
+					</predicate>
+				</address>
+				<query>SELECT * FROM wrapper</query>
+			</source>
+			<source alias="source2" storage-size="1" sampling-rate="1">
+				<address wrapper="remote-rest">
+					<predicate key="HOST">192.168.22.101</predicate>
+					<predicate key="PORT">22001</predicate>
+					<predicate key="QUERY">select * from
+						AndroidInbuiltTemperatureSensor
+					</predicate>
+				</address>
+				<query>SELECT * FROM wrapper</query>
+			</source>
+			<source alias="source3" sampling-rate="1" storage-size="1">
+				<address wrapper="Phytophtora">
+					<!--		<predicate key="rate">2000</predicate>   -->
+				</address>
+				<query>SELECT * FROM wrapper</query>
+			</source>
+			<query>SELECT source1.accelerationX_axis_incl_gravity, source1.accelerationY_axis_incl_gravity, source2.temperature, source3.leaf_wetness, source3.air_humidity 	from source1,  source2, source3</query>
+		</stream>
+	</streams>
+</virtual-sensor>
