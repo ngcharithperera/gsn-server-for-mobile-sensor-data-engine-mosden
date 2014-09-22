@@ -53,7 +53,7 @@ public class RemoteWrapperParamParser {
 	private  final String CURRENT_TIME = ISODateTimeFormat.dateTime().print(System.currentTimeMillis());
 
 	public RemoteWrapperParamParser(AddressBean addressBean, boolean isPushBased) {
-
+		//this.isPushBased = isPushBased;
 		query = addressBean.getPredicateValueWithException("query" );
 		
 		logger.debug("Remote wrapper parameter [keep-alive: "+isPushBased+"], Query=> "+query);
